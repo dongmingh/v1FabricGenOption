@@ -256,15 +256,13 @@ for ( i0=0; i0<top_key.length; i0++ ) {
                             buff = '  ' + '  ' + lvl2_key[k] + ': ' + '\n';
                             fs.appendFileSync(dFile, buff);
 
-                            if ( ord_env_name.length > 0 ) {
-                                for ( e=0; e<ord_env_name.length; e++ ) {
-                                            buff = '  ' + '    - ' + ord_env_name[e] + '=' + ord_env_val[e] + '\n';
-                                            fs.appendFileSync(dFile, buff);
-                                }
-                            } else {
                                 // header 4
                                 for ( m=0; m< lvl3_key.length; m++ ) {
-                                    if ( lvl3_key[m] == 'ORDERER_KAFKA_BROKERS' ) {
+                                    tmp = ord_env_name.indexOf( lvl3_key[m] );
+                                    if ( tmp >= 0 ) {
+                                        buff = '  ' + '    - ' + lvl3_key[m] + '=' + ord_env_val[tmp] + '\n';
+                                        fs.appendFileSync(dFile, buff);
+                                    } else if ( lvl3_key[m] == 'ORDERER_KAFKA_BROKERS' ) {
                                         if ( addBroker > 0 ) {
                                             buff = '  ' + '    - ' + lvl3_key[m] + '=[';
                                             for (n=0; n<addBroker; n++) {
@@ -276,14 +274,14 @@ for ( i0=0; i0<top_key.length; i0++ ) {
                                             buff = buff + ']' + '\n';
                                             fs.appendFileSync(dFile, buff);
                                         }
-                                    } else if ( lvl3_key[m] == 'ORDERER_GENERAL_ORDERERTYPE' ) {
-                                        if ( addBroker > 0 ) {
-                                            buff = '  ' + '    - ' + lvl3_key[m] + '=' + 'kafka' + '\n';
-                                            fs.appendFileSync(dFile, buff);
-                                        } else {
-                                            buff = '  ' + '    - ' + lvl3_key[m] + '=' + 'solo' + '\n';
-                                            fs.appendFileSync(dFile, buff);
-                                        }
+                                    } else if ( lvl3_key[m] == 'ORDERER_GENESIS_ORDERERTYPE' ) {
+                                            if ( addBroker > 0 ) {
+                                                buff = '  ' + '    - ' + lvl3_key[m] + '=' + 'kafka' + '\n';
+                                                fs.appendFileSync(dFile, buff);
+                                            } else {
+                                                buff = '  ' + '    - ' + lvl3_key[m] + '=' + 'solo' + '\n';
+                                                fs.appendFileSync(dFile, buff);
+                                            }
                                     } else if ( ( lvl3_key[m] == 'ORDERER_GENERAL_GENESISMETHOD' ) || ( lvl3_key[m] == 'ORDERER_GENERAL_GENESISFILE' ) ) {
                                         if ( addBroker > 0 ) {
                                             buff = '  ' + '    - ' + lvl3_key[m] + '=' + lvl2_obj[lvl3_key[m]] + '\n';
@@ -298,7 +296,6 @@ for ( i0=0; i0<top_key.length; i0++ ) {
                                     }
 
                                 }
-                            }
                         } else if ( ( lvl2_key[k] == 'image' ) || ( lvl2_key[k] == 'command' ) || ( lvl2_key[k] == 'working_dir' ) 
                                     || ( lvl2_key[k] == 'restart') ) {
                             buff = '  ' + '  ' + lvl2_key[k] + ': ' + lvl1_obj[lvl2_key[k]] + '\n';
@@ -456,14 +453,12 @@ for ( i0=0; i0<top_key.length; i0++ ) {
                             fs.appendFileSync(dFile, buff);
 
                                 // header 4
-                            if ( peer_env_name.length > 0) {
-                                for ( e=0; e<peer_env_name.length; e++ ) {
-                                            buff = '  ' + '    - ' + peer_env_name[e] + '=' + peer_env_val[e] + '\n';
-                                            fs.appendFileSync(dFile, buff);
-                                }
-                            } else {
                                 for ( m=0; m< lvl3_key.length; m++ ) {
-                                    if ( lvl3_key[m] == 'CORE_PEER_ID' ) {
+                                    tmp = peer_env_name.indexOf( lvl3_key[m] );
+                                    if ( tmp >= 0 ) {
+                                        buff = '  ' + '    - ' + lvl3_key[m] + '=' + peer_env_val[tmp] + '\n';
+                                        fs.appendFileSync(dFile, buff);
+                                    } else if ( lvl3_key[m] == 'CORE_PEER_ID' ) {
                                         buff = '  ' + '    - ' + lvl3_key[m] + '=' + tmp_name + '\n';
                                         fs.appendFileSync(dFile, buff);
                                     } else if ( lvl3_key[m] == 'CORE_PEER_NETWORKID' ) {
@@ -500,7 +495,6 @@ for ( i0=0; i0<top_key.length; i0++ ) {
                                     }
 
                                 }
-                            }
                         } else if ( ( lvl2_key[k] == 'image' ) || ( lvl2_key[k] == 'command' ) || ( lvl2_key[k] == 'working_dir' ) 
                                     || ( lvl2_key[k] == 'restart') ) {
                             buff = '  ' + '  ' + lvl2_key[k] + ': ' + lvl1_obj[lvl2_key[k]] + '\n';

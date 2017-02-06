@@ -62,6 +62,8 @@ while getopts ":l:d:w:x:b:c:t:a:o:k:p:" opt; do
       nOrderer=$OPTARG
       echo "# of orderer: $nOrderer"
       ;;
+
+    # else
     \?)
       echo "Invalid option: -$OPTARG" >&2
       InvalidArgs=1
@@ -75,32 +77,33 @@ done
 
 
 if [ $InvalidArgs == 1 ]; then
-echo "Usage: "
-echo " ./driver_ord.sh [opt] [value] "
-echo "    network variables"
-echo "    -a: action [create|add] "
-echo "    -p: number of peers "
-echo "    -o: number of orderers "
-echo "    -k: number of brokers "
-echo " "
-echo "    peer environment variables"
-echo "    -l: core logging level [(deafult = not set)|CRITICAL|ERROR|WARNING|NOTICE|INFO|DEBUG]"
-echo "    -w: core security level [256|384]"
-echo "    -x: core security hash algorithm [SHA2|SHA3]"
-echo "    -d: core ledger state DB [level|couch] "
-echo " "
-echo "    orderer environment variables"
-echo "    -b: batch size [10|msgs in batch/block]"
-echo "    -t: orderer type [solo|kafka] "
-echo "    -c: batch timeout [10s|max secs before send an unfilled batch] "
-echo " "
-  exit
+   echo "Usage: "
+   echo " ./driver_ord.sh [opt] [value] "
+   echo "    network variables"
+   echo "    -a: action [create|add] "
+   echo "    -p: number of peers "
+   echo "    -o: number of orderers "
+   echo "    -k: number of brokers "
+   echo " "
+   echo "    peer environment variables"
+   echo "    -l: core logging level [(deafult = not set)|CRITICAL|ERROR|WARNING|NOTICE|INFO|DEBUG]"
+   echo "    -w: core security level [256|384]"
+   echo "    -x: core security hash algorithm [SHA2|SHA3]"
+   echo "    -d: core ledger state DB [level|couch] "
+   echo " "
+   echo "    orderer environment variables"
+   echo "    -b: batch size [10|msgs in batch/block]"
+   echo "    -t: orderer type [solo|kafka] "
+   echo "    -c: batch timeout [10s|max secs before send an unfilled batch] "
+   echo " "
+   exit
 fi
 
-      if [ $nBroker -gt 0 ] && [ $ORDERER_GENESIS_ORDERERTYPE == 'solo' ]; then
-          echo "reset Broker number to 0 due to the ORDERER_GENESIS_ORDERERTYPE=$ORDERER_GENESIS_ORDERERTYPE"
-          nBroker=0
-      fi
+if [ $nBroker -gt 0 ] && [ $ORDERER_GENESIS_ORDERERTYPE == 'solo' ]; then
+    echo "reset Broker number to 0 due to the ORDERER_GENESIS_ORDERERTYPE=$ORDERER_GENESIS_ORDERERTYPE"
+    nBroker=0
+fi
+
 #OS
 OSName=`uname`
 echo "Operating System: $OSName"
