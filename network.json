@@ -23,7 +23,10 @@
             "depends_on": [
                  "zookeeper"
             ],
-            "container_name": "kafka0"
+            "container_name": "kafka0",
+            "networks": [
+                 "bridge"
+            ]
         },
         "ca": {
             "image": "rameshthoomu/fabric-ca-x86_64",

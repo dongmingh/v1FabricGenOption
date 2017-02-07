@@ -4,6 +4,7 @@ InvalidArgs=0
 
 #init var
 nBroker=0
+nPeer=1
 
 while getopts ":l:d:w:x:b:c:t:a:o:k:p:" opt; do
   case $opt in
