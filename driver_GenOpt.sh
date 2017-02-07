@@ -2,6 +2,9 @@
 
 InvalidArgs=0
 
+#init var
+nBroker=0
+
 while getopts ":l:d:w:x:b:c:t:a:o:k:p:" opt; do
   case $opt in
     # peer environment options
@@ -41,7 +44,7 @@ while getopts ":l:d:w:x:b:c:t:a:o:k:p:" opt; do
       export ORDERER_GENESIS_ORDERERTYPE=$ORDERER_GENESIS_ORDERERTYPE
       echo "ORDERER_GENESIS_ORDERERTYPE: $ORDERER_GENESIS_ORDERERTYPE"
       if [ $ORDERER_GENESIS_ORDERERTYPE == 'kafka' ]; then
-          nBroker=0
+          nBroker=1   # must have at least 1
       fi
       ;;
 
@@ -89,7 +92,7 @@ if [ $InvalidArgs == 1 ]; then
    echo "    -l: core logging level [(deafult = not set)|CRITICAL|ERROR|WARNING|NOTICE|INFO|DEBUG]"
    echo "    -w: core security level [256|384]"
    echo "    -x: core security hash algorithm [SHA2|SHA3]"
-   echo "    -d: core ledger state DB [level|couch] "
+   echo "    -d: core ledger state DB [goleveldb|couchdb] "
    echo " "
    echo "    orderer environment variables"
    echo "    -b: batch size [10|msgs in batch/block]"
@@ -105,8 +108,8 @@ if [ $nBroker -gt 0 ] && [ $ORDERER_GENESIS_ORDERERTYPE == 'solo' ]; then
 fi
 
 #OS
-OSName=`uname`
-echo "Operating System: $OSName"
+##OSName=`uname`
+##echo "Operating System: $OSName"
 
 
 dbType=`echo "$db" | awk '{print tolower($0)}'`
@@ -142,7 +145,7 @@ else
     VPN="peer"$N
 fi
 
-echo "N1=$N1 VP=$VP nPeer=$nPeer VPN=$VPN"
+## echo "N1=$N1 VP=$VP nPeer=$nPeer VPN=$VPN"
 
 node json2yml.js $jsonFILE $N1 $nOrderer $nBroker $dbType
 

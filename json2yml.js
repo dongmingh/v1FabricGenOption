@@ -5,7 +5,7 @@ var cfgFile = process.argv[2];
 var dFile = __dirname + "/" + "docker-compose.yml";
 fs.createWriteStream(dFile);
 
-var COP=0;
+var CA=0;
 var CDB=0;
 var KAFKA=0;
 
@@ -101,7 +101,7 @@ if ( addBroker > 0 ) {
    KAFKA=1;
 }
 
-if ( (dbType == 'couch') || (dbType == 'level') ){
+if ( (dbType == 'couchdb') || (dbType == 'goleveldb') ){
    CDB=1;
 }
 
@@ -147,7 +147,7 @@ for ( i0=0; i0<top_key.length; i0++ ) {
 
             // header 2
              if (lvl1_key[i] == 'couchdb' ) {
-                if (dbType == 'couch') {
+                if (dbType == 'couchdb') {
                 for ( v = 0; v < addVP; v++ ) {
                     tmp_name = lvl1_key[i] + v;
                     tmp_port = couchdbPort + v;
@@ -202,8 +202,8 @@ for ( i0=0; i0<top_key.length; i0++ ) {
                             fs.appendFileSync(dFile, buff);
                             buff = '  ' + '    - ' + 'orderer' + '\n';
                             fs.appendFileSync(dFile, buff);
-                            if ( COP == 1 ) {
-                                buff = '  ' + '    - ' + 'cop' + '\n';
+                            if ( CA == 1 ) {
+                                buff = '  ' + '    - ' + 'ca' + '\n';
                                 fs.appendFileSync(dFile, buff);
                             }
                             // header 4
@@ -476,15 +476,15 @@ for ( i0=0; i0<top_key.length; i0++ ) {
                                             fs.appendFileSync(dFile, buff);
                                         }
                                     } else if ( lvl3_key[m] == 'CORE_LEDGER_STATE_STATEDATABASE' ) {
-                                        if (dbType == 'couch') {
+                                        if (dbType == 'couchdb') {
                                             buff = '  ' + '    - ' + lvl3_key[m] + '=' + 'CouchDB' + '\n';
                                             fs.appendFileSync(dFile, buff);
-                                        } else if (dbType == 'level') {
+                                        } else if (dbType == 'goleveldb') {
                                             buff = '  ' + '    - ' + lvl3_key[m] + '=' + 'goleveldb' + '\n';
                                             fs.appendFileSync(dFile, buff);
                                         }
                                     } else if ( lvl3_key[m] == 'CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS' ) {
-                                        if (dbType == 'couch') {
+                                        if (dbType == 'couchdb') {
                                             tmp = couchdbPort+v;
                                             buff = '  ' + '    - ' + lvl3_key[m] + '=' + 'couchdb'+v +':'+ tmp + '\n';
                                             fs.appendFileSync(dFile, buff);
@@ -520,12 +520,12 @@ for ( i0=0; i0<top_key.length; i0++ ) {
                             fs.appendFileSync(dFile, buff);
                             buff = '  ' + '    - ' + 'orderer0' + '\n';
                             fs.appendFileSync(dFile, buff);
-                            if (dbType == 'couch') {
+                            if (dbType == 'couchdb') {
                                 buff = '  ' + '    - ' + 'couchdb'+v + '\n';
                                 fs.appendFileSync(dFile, buff);
                             }
-                            if ( COP == 1 ) {
-                                buff = '  ' + '    - ' + 'cop' + '\n';
+                            if ( CA == 1 ) {
+                                buff = '  ' + '    - ' + 'ca' + '\n';
                                 fs.appendFileSync(dFile, buff);
                             }
                             // header 4
@@ -659,8 +659,8 @@ for ( i0=0; i0<top_key.length; i0++ ) {
                 fs.appendFileSync(dFile, buff);
 
              } else {
-                if (lvl1_key[i] == 'cop' ) {
-                    COP=1;
+                if (lvl1_key[i] == 'ca' ) {
+                    CA=1;
                 }
                 buff = '  ' + lvl1_key[i] +':' + '\n';
                 fs.appendFileSync(dFile, buff);
