@@ -44,7 +44,7 @@ while getopts ":l:d:w:x:b:c:t:a:o:k:p:" opt; do
       ORDERER_GENESIS_ORDERERTYPE=$OPTARG
       export ORDERER_GENESIS_ORDERERTYPE=$ORDERER_GENESIS_ORDERERTYPE
       echo "ORDERER_GENESIS_ORDERERTYPE: $ORDERER_GENESIS_ORDERERTYPE"
-      if [ $ORDERER_GENESIS_ORDERERTYPE == 'kafka' ]; then
+      if [$nBroker == 0 ] && [ $ORDERER_GENESIS_ORDERERTYPE == 'kafka' ]; then
           nBroker=1   # must have at least 1
       fi
       ;;
