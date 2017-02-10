@@ -94,6 +94,8 @@ var couchdbAddr;
 var couchdbPort;
 var vp0Addr;
 var vp0Port;
+var evtAddr;
+var evtPort;
 var tmp;
 var e;
 
@@ -127,6 +129,12 @@ for ( i0=0; i0<top_key.length; i0++ ) {
     } else if ( top_key[i0] == 'vp0Port' ) {
          vp0Port = parseInt(lvl0_obj); 
          console.log('peer0 Port:', vp0Port);
+    } else if ( top_key[i0] == 'evtAddress' ) {
+         evtAddr = lvl0_obj;
+         console.log('event Hub address:', evtAddr);
+    } else if ( top_key[i0] == 'evtPort' ) {
+         evtPort = parseInt(lvl0_obj);
+         console.log('event Hub Port:', evtPort);
     } else if ( top_key[i0] == 'version' ) {
          buff = top_key[i0] + ":" + " '" + lvl0_obj + "'" + "\n";
          fs.appendFileSync(dFile, buff);
@@ -515,8 +523,13 @@ for ( i0=0; i0<top_key.length; i0++ ) {
                             fs.appendFileSync(dFile, buff);
 
                             // header 4
-                            buff = '  ' + '    - ' + tmp_port + ':' + vp0Port + '\n';
+                            buff = '  ' + '    - ' + tmp_port + ':' + 7051 + '\n';
                             fs.appendFileSync(dFile, buff);
+
+                            if ( v == 0 ) {
+                                buff = '  ' + '    - ' + evtPort + ':' + evtPort + '\n';
+                                fs.appendFileSync(dFile, buff);
+                            }
 
                         } else if ( lvl2_key[k] == 'links' ) {
                             var lvl2_obj = lvl1_obj[lvl2_key[k]];
