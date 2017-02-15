@@ -291,7 +291,8 @@ for ( i0=0; i0<top_key.length; i0++ ) {
                                                 fs.appendFileSync(dFile, buff);
                                             }
                                     } else if ( lvl3_key[m] == 'ORDERER_GENERAL_LISTENPORT' ) {
-                                            buff = '  ' + '    - ' + lvl3_key[m] + '=' + ordererPort + '\n';
+                                            tmp_port = ordererPort + v;
+                                            buff = '  ' + '    - ' + lvl3_key[m] + '=' + tmp_port + '\n';
                                             fs.appendFileSync(dFile, buff);
                                     } else if ( ( lvl3_key[m] == 'ORDERER_GENERAL_GENESISMETHOD' ) || ( lvl3_key[m] == 'ORDERER_GENERAL_GENESISFILE' ) ) {
                                         if ( addBroker > 0 ) {
@@ -322,7 +323,7 @@ for ( i0=0; i0<top_key.length; i0++ ) {
                                 fs.appendFileSync(dFile, buff);
                                 tmp_port = ordererPort + v;
 
-                                buff = '  ' + '    - ' + tmp_port +':' + ordererPort + '\n' ;
+                                buff = '  ' + '    - ' + tmp_port +':' + tmp_port + '\n' ;
                                 fs.appendFileSync(dFile, buff);
 
                         } else if ( (lvl2_key[k] == 'depends_on') ) {
@@ -479,7 +480,10 @@ for ( i0=0; i0<top_key.length; i0++ ) {
                                         buff = '  ' + '    - ' + lvl3_key[m] + '=' + tmp_name + '\n';
                                         fs.appendFileSync(dFile, buff);
                                     } else if ( lvl3_key[m] == 'CORE_PEER_COMMITTER_LEDGER_ORDERER' ) {
-                                        buff = '  ' + '    - ' + lvl3_key[m] + '=' + 'orderer0' +':'+ ordererPort + '\n';
+                                        var tmp_ord = v % addOrderer;
+                                        var tmp_ord_id = 'orderer'+tmp_ord;
+                                        var tmp_ord_port = ordererPort + tmp_ord;
+                                        buff = '  ' + '    - ' + lvl3_key[m] + '=' + tmp_ord_id +':'+ tmp_ord_port + '\n';
                                         fs.appendFileSync(dFile, buff);
                                     } else if ( lvl3_key[m] == 'CORE_PEER_ADDRESS' ) {
                                         buff = '  ' + '    - ' + lvl3_key[m] + '=' + vp0Addr +':'+ tmp_port + '\n';
@@ -537,7 +541,9 @@ for ( i0=0; i0<top_key.length; i0++ ) {
 
                             buff = '  ' + '  ' + lvl2_key[k] + ': ' + '\n';
                             fs.appendFileSync(dFile, buff);
-                            buff = '  ' + '    - ' + 'orderer0' + '\n';
+                            var tmp_ord = v % addOrderer;
+                            var tmp_ord_id = 'orderer'+tmp_ord;
+                            buff = '  ' + '    - ' + tmp_ord_id + '\n';
                             fs.appendFileSync(dFile, buff);
                             if (dbType == 'couchdb') {
                                 buff = '  ' + '    - ' + 'couchdb'+v + '\n';
