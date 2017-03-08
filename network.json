@@ -6,7 +6,7 @@
     "vp0Address": "0.0.0.0",
     "vp0Port": "7061",
     "evtAddress": "0.0.0.0",
-    "evtPort": "7053",
+    "evtPort": "6051",
     "version": "2",
     "networks":
             "bridge",

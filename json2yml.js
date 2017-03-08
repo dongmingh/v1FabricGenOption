@@ -530,10 +530,11 @@ for ( i0=0; i0<top_key.length; i0++ ) {
                             buff = '  ' + '    - ' + tmp_port + ':' + 7051 + '\n';
                             fs.appendFileSync(dFile, buff);
 
-                            if ( v == 0 ) {
-                                buff = '  ' + '    - ' + evtPort + ':' + evtPort + '\n';
+                            //if ( v == 0 ) {
+                                var tmp=evtPort+v
+                                buff = '  ' + '    - ' + tmp + ':' + 7053 + '\n';
                                 fs.appendFileSync(dFile, buff);
-                            }
+                            //}
 
                         } else if ( lvl2_key[k] == 'links' ) {
                             var lvl2_obj = lvl1_obj[lvl2_key[k]];
